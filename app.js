@@ -97,7 +97,7 @@ if (
         ;
 
         // register fake ServiceWorker for show notification on mobile devices
-        navigator.serviceWorker.register('/serviceworker/firebase-messaging-sw.js');
+        navigator.serviceWorker.register('firebase-messaging-sw.js');
         Notification.requestPermission(function(permission) {
             if (permission === 'granted') {
                 navigator.serviceWorker.ready.then(function(registration) {
@@ -182,7 +182,7 @@ function getToken() {
 
 
 function sendNotification(notification) {
-    var key = 'BO6PGomEb1qOVYY7RuQ4bZhZvOIgwAquAszsTqxKgWh3_iydNpMoDpEkz_oUXTwD7kl5ebTwF41bmhI6v3EdSvw';
+    var key = 'BEdJTbUnqwcjaYy4byZ8FLwewIUhAuaUgIasz-RStSsH8iPwwImKpnkN1KvCRhTFqLxZLwXwP0Fi7AGamcSJt-8';
 
     console.log('Send notification', notification);
 
@@ -195,7 +195,7 @@ function sendNotification(notification) {
             fetch('https://fcm.googleapis.com/fcm/send', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'key=' + key,
+                    'Authorization': 'Bearer ' + key,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
