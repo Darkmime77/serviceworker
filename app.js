@@ -195,7 +195,7 @@ function sendNotification(notification) {
             fetch('https://fcm.googleapis.com/fcm/send', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer ' + key,
+                    'Authorization': 'key=' + key,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
