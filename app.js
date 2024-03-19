@@ -182,7 +182,8 @@ function getToken() {
 
 
 function sendNotification(notification) {
-    var key = 'BEdJTbUnqwcjaYy4byZ8FLwewIUhAuaUgIasz-RStSsH8iPwwImKpnkN1KvCRhTFqLxZLwXwP0Fi7AGamcSJt-8';
+            // AAAAaGQ_q2M:APA91bGCEOduj8HM6gP24w2LEnesqM2zkL_qx2PJUSBjjeGSdJhCrDoJf_WbT7wpQZrynHlESAoZ1VHX9Nro6W_tqpJ3Aw-A292SVe_4Ho7tJQCQxSezDCoJsnqXjoaouMYIwr34vZTs
+    var key = 'AAAAzAipgmk:APA91bHeSP28OU_bcT-EUIxOkF3777aBz4YTn3OBCXOc01VmpKBC30fn4H9meMBM_D1Ik4GVC_2k-gSkTw86SwMG9oRBuE6yc2H422fHzGy0f_G1wU1lN2_aX1DDPrSJwXMxf1QtB4OL';
 
     console.log('Send notification', notification);
 
@@ -195,7 +196,7 @@ function sendNotification(notification) {
             fetch('https://fcm.googleapis.com/fcm/send', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'key=' + key,
+                    'Authorization': 'Bearer ' + key,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
