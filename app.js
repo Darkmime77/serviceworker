@@ -205,7 +205,8 @@ function sendNotification(notification) {
                     data: notification,
                     to: currentToken
                 })
-            }).then(function(response) {
+            },
+            ).then(function(response) {
                 return response.json();
             }).then(function(json) {
                 console.log('Response', json);
