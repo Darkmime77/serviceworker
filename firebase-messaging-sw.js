@@ -1,32 +1,39 @@
-// Give the service worker access to Firebase Messaging.
-// Note that you can only use Firebase Messaging here. Other Firebase libraries
-// are not available in the service worker.
-// eslint-disable-next-line
-importScripts("https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js");
-// eslint-disable-next-line
-importScripts("https://www.gstatic.com/firebasejs/8.6.7/firebase-messaging.js");
+importScripts('https://www.gstatic.com/firebasejs/3.7.2/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/3.7.2/firebase-messaging.js');
 
-// Initialize the Firebase app in the service worker by passing in
-// your app's Firebase config object.
-// https://firebase.google.com/docs/web/setup#config-object
-// eslint-disable-next-line
-const firebaseConfig = {
-  apiKey: "AIzaSyAd5laV6_2FEVFrVThpuYWkPeIwNtxrTqE",
-  authDomain: "test-b4946.firebaseapp.com",
-  projectId: "test-b4946",
-  storageBucket: "test-b4946.appspot.com",
-  messagingSenderId: "876318655081",
-  appId: "1:876318655081:web:f8e43b681b67af27d298f8",
-  measurementId: "G-6FGYT2T11F"
-};
-// Retrieve an instance of Firebase Messaging so that it can handle background
-// messages.
-// eslint-disable-next-line
+firebase.initializeApp({
+  messagingSenderId: '876318655081'
+});
+
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage((message) => {
-  return self.showNotification(
-    message.notification.title,
-    message.notification
-  );
+// Customize notification handler
+messaging.setBackgroundMessageHandler(function(payload) {
+  console.log('Handling background message', payload);
+
+  // Copy data object to get parameters in the click handler
+  payload.data.data = JSON.parse(JSON.stringify(payload.data));
+
+  return self.registration.showNotification(payload.data.title, payload.data);
+});
+
+self.addEventListener('notificationclick', function(event) {
+  const target = event.notification.data.click_action || '/';
+  event.notification.close();
+
+  // This looks to see if the current is already open and focuses if it is
+  event.waitUntil(clients.matchAll({
+    type: 'window',
+    includeUncontrolled: true
+  }).then(function(clientList) {
+    // clientList always is empty?!
+    for (var i = 0; i < clientList.length; i++) {
+      var client = clientList[i];
+      if (client.url === target && 'focus' in client) {
+        return client.focus();
+      }
+    }
+
+    return clients.openWindow(target);
+  }));
 });
